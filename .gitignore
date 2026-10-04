@@ -1,0 +1,9 @@
+node_modules
+dist
+.env
+server/data/db.json
+server/data/uploads
+
+# Internal PRD (kept local, not published)
+docs/CarVault-AI-PRD.pdf
+docs/prd/
