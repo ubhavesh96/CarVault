@@ -1,11 +1,12 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { ArrowLeft, Car, Coins, FileCheck2, FileText, Fingerprint, History, KeyRound, LayoutDashboard, MapPin, Palette, ScanSearch, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Car, Coins, FileCheck2, FileText, Fingerprint, History, KeyRound, LayoutDashboard, MapPin, Palette, ScanSearch, Share2, ShieldCheck } from 'lucide-react';
 import { useSession } from '../session';
 import { api, photoApi } from '../api';
 import type { VehicleDetail } from '../types';
 import { ErrorNote, Modal, PHOTO_ACCEPT, PHOTO_MAX_BYTES, Spinner, VehicleVisual } from '../components/ui';
 import { fmtKm } from '../utils';
+import ShareDialog from '../components/ShareDialog';
 
 export interface VehicleCtx {
   data: VehicleDetail;
@@ -63,6 +64,7 @@ export default function VehicleLayout() {
   const [data, setData] = useState<VehicleDetail | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [odo, setOdo] = useState(false);
+  const [sharing, setSharing] = useState(false);
   const [photoBusy, setPhotoBusy] = useState<false | 'upload' | 'reference'>(false);
 
   const reload = useCallback(async () => {
@@ -138,7 +140,10 @@ export default function VehicleLayout() {
             <b className="num">{fmtKm(v.mileage)}</b>
             <div className="caption"><Car className="i" style={{ inlineSize: 13, blockSize: 13 }} aria-hidden />Odometer · owner-reported</div>
           </div>
-          <button className="btn sm" onClick={() => setOdo(true)}>Update reading</button>
+          <div className="row wrap vhead-actions">
+            {has('data_room') && <button className="btn sm primary" onClick={() => setSharing(true)}><Share2 className="i" aria-hidden />Share</button>}
+            <button className="btn sm" onClick={() => setOdo(true)}>Update reading</button>
+          </div>
         </div>
       </header>
 
@@ -164,6 +169,7 @@ export default function VehicleLayout() {
           </NavLink>
         ))}
       </nav>}
+      {sharing && <ShareDialog vehicle={v} onClose={() => setSharing(false)} />}
       {odo && <OdometerModal data={data} onClose={() => setOdo(false)} onSaved={(d) => { setData(d); setOdo(false); }} />}
     </div>
   );

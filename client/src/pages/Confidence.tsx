@@ -75,6 +75,9 @@ function DimensionRow({ d, vehicleId, open, onToggle }: { d: Dimension; vehicleI
   );
 }
 
+/** Lower-case only the first letter, unless it starts an acronym such as RTA. */
+const lowerFirst = (t: string) => (/^[A-Z]{2}/.test(t) ? t : t.charAt(0).toLowerCase() + t.slice(1));
+
 export default function ConfidencePage() {
   const { data } = useVehicle();
   const v = data.vehicle;
@@ -130,7 +133,7 @@ export default function ConfidencePage() {
             {c.improvements.map((i) => (
               <li key={i.id}>
                 <span className="gain num">+{i.gain}</span>
-                <span className="imp-main"><b>{i.label}</b><small>{i.dimension} · needs {i.evidence.toLowerCase()}</small></span>
+                <span className="imp-main"><b>{i.label}</b><small>{i.dimension} · needs {lowerFirst(i.evidence)}</small></span>
                 <Link className="btn sm" to={ctaPath(v.id, i)} aria-label={`${i.cta.label}: ${i.label}`}><Plus className="i" aria-hidden />{i.cta.label.split(' ')[0]}</Link>
               </li>
             ))}

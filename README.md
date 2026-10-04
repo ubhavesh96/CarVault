@@ -1,82 +1,103 @@
 # CarVault AI
 
-**Trusted vehicle lifecycle intelligence.** CarVault is the digital identity and lifecycle record of a vehicle: documents, ownership, service, inspections, insurance and mileage become one evidence-backed record, scored by **Vehicle Confidence** and shared as a **Vehicle Passport**.
+**A trusted, evidence-backed record of a car's whole life, built for the UAE.**
 
-It is a category-based, multi-tenant, white-label platform: dealerships, insurers, finance houses, service centres, inspection companies, fleets and individual owners each get the experience they are licensed for.
+CarVault turns a vehicle's scattered paperwork (registration, service invoices, inspections, insurance, mileage) into one verifiable record. It scores how well that history is evidenced, flags what is missing, and lets the owner share exactly what they choose with a buyer, garage, insurer or lender.
 
-## Run it
+> Product concept and working prototype. Sample data is fictional, and the AI runs in demo mode until an API key is added.
+
+![Vehicle overview for an owner](docs/screenshots/owner-overview.png)
+
+---
+
+## The problem
+
+Buying a used car in the UAE is still an act of trust. The history lives in glove boxes, WhatsApp threads and workshop systems. Mileage can be rolled back, and service gaps are invisible. Even honest sellers struggle to prove their car was looked after.
+
+- **Owners** can't easily show the care they've put into a car, so they don't get credit for it at resale.
+- **Buyers** can't tell a well-kept car from a well-presented one.
+- **Dealers, insurers and lenders** re-check the same facts on every car, every time.
+
+## The idea
+
+One record per vehicle, where every fact carries its source. CarVault doesn't claim to know a car's condition. It shows **how strong the evidence is**, and what would make it stronger.
+
+## Who it's for
+
+| User | What they get |
+|---|---|
+| **Owner** | A garage of their cars, maintenance insight, and a passport they can share with control. |
+| **Dealership** | Documented stock, resale readiness per car, and buyer-ready share links. |
+| **Fleet** | Imported service records and transfer-ready files when cars are sold. |
+| **Insurer and lender** | Ownership, insurance and mileage evidence they can rely on. |
+| **CarVault Admin** | Organizations, licensing, branding, trust rules and pilot tracking, all in one console. |
+
+## Key experiences
+
+**Vehicle Confidence.** A 0–100 score for how well a car's *history* is evidenced. It covers eight areas: identity, ownership, mileage, service, insurance, inspection, accident and claims, and documents. Every area explains itself and lists its sources. It also shows what's missing and how many points adding it would gain.
+
+![Vehicle Confidence breakdown](docs/screenshots/vehicle-confidence.png)
+
+**Share on the owner's terms.** The owner picks exactly what to share. Every section starts unticked, the link expires, and it can be revoked at any time. Uploaded files and personal details are never included.
+
+![Owner share dialog](docs/screenshots/share-dialog.png)
+
+**Resale Readiness and the UAE transfer checklist.** Shows what is ready for a buyer and what isn't. The checklist covers the RTA transfer requirements: Mulkiya and insurance valid, fines paid, any loan cleared, a technical test for older cars, Emirates ID, and buyer insurance.
+
+![Resale readiness](docs/screenshots/resale-readiness.png)
+
+**Official evidence.** The owner uploads the RTA Vehicle Status Certificate. Its owner history, insurance history and odometer readings flow into the record. The certificate only becomes *Verified* after a person checks it with the issuer.
+
+**CarVault Insight.** An assistant that answers from the car's own records ("What does my car need?", "Is it ready to sell?"). Every statement is labelled as verified, inferred, estimated or unknown.
+
+**Built for businesses too.** One platform serves dealerships, fleets, insurers, lenders, service centres and inspection companies, each under its own brand, with only the modules it licenses.
+
+![Dealer dashboard](docs/screenshots/dealer-dashboard.png)
+
+## Product principles
+
+1. **Evidence over claims.** Every fact shows where it came from: Verified, Imported, User provided, Estimated, Conflict or Unknown.
+2. **AI interprets; it never proves.** CarVault Insight is labelled and never counts as evidence.
+3. **Unknown is an answer.** "No accident record on file" is never presented as "accident-free".
+4. **The owner controls sharing.** Nothing leaves the account unless the owner selects it.
+5. **Honest about what's connected.** Integrations that aren't live are labelled as such.
+
+## North Star metric
+
+**Trusted Active Vehicles:** vehicles with Vehicle Confidence of 85 or more, whose evidence was updated in the last 90 days. It rewards complete records that stay current, which is what makes a car easier to sell, insure and finance.
+
+![Pilot programme tracking the North Star](docs/screenshots/admin-pilots.png)
+
+## Design approach
+
+- **Calm, premium and quietly technical,** designed for UAE premium-car owners and the businesses that serve them.
+- **Cool graphite palette** with a single electric-blue accent for intelligence and selection. Colour signals status only (good, attention, due), never decoration.
+- **Manrope** throughout, with tabular figures for data.
+- **Glass selection states** instead of coloured outlines. Light and dark themes are a per-person setting.
+- **Accessible by default:** text meets WCAG AA contrast (4.5:1 or more) in both themes, and controls meet 3:1. Tenant brand colours are adjusted automatically to stay legible.
+- **Ready for Arabic:** the layout already works right to left; Arabic text is still to come.
+- **Mobile-first owner flows,** with a bottom navigation bar and dialogs that fit a phone screen.
+
+## Go-to-market
+
+Business first. Dealers, fleets and inspection partners run time-boxed pilots with an agreed goal and a North Star target. Owners arrive through those partners' sales and service journeys. Marketplaces and car-buying services receive owner-approved share links and an embeddable listing badge. See [docs/partners/partner-integration.md](docs/partners/partner-integration.md).
+
+## What's next
+
+- Real sign-in (UAE PASS for owners, SSO for businesses) to replace the demo identity switcher.
+- Arabic language support.
+- Data partnerships: RTA / ITC registry data, testing centres, insurers and vehicle-history providers.
+- Production hosting in a UAE cloud region, with privacy controls aligned to the UAE Personal Data Protection Law (PDPL).
+
+## Try the prototype
 
 ```bash
 npm install
-npm run dev          # API on :4000, web app on http://localhost:5173
+npm run dev
 ```
 
-Production-style (single server): `npm run build && npm start`, then open http://localhost:4000.
+Then open **http://localhost:5173** and choose a sample persona (owner, dealer, insurer, fleet or CarVault Admin). The app uses React and TypeScript on the front end, with a Node/Express API behind it. All data is fictional.
 
-Sample organizations, people and vehicles are seeded on first run (all fictional). **Reset demo data** in the account menu restores them.
+---
 
-### Signing in (prototype)
-
-There is no real authentication yet. The sign-in page lets you act as any sample person: CarVault Admin, an organization admin or team member, or a vehicle owner. **Everything after identity is enforced on the server**: tenant isolation, roles and module entitlements. Replace `currentUser` resolution in [server/src/auth.ts](server/src/auth.ts) with a real identity provider (OIDC/SSO) before real use.
-
-## Architecture
-
-```
-CARVAULT CORE ─ Data & evidence ─ Vehicle intelligence ─ Confidence Engine ─ Vehicle Passport
-      │
-      └─ Category ─ Tenant ─ Licensed modules ─ Users ─ Vehicles
-```
-
-| Piece | Where |
-|---|---|
-| Catalog: categories, modules, per-category navigation, entitlements | [server/src/catalog.ts](server/src/catalog.ts) |
-| Access control: identity, tenant isolation, roles, module checks, audit | [server/src/auth.ts](server/src/auth.ts) |
-| Confidence Engine and Resale Readiness | [server/src/confidence.ts](server/src/confidence.ts) |
-| Routes: session, org, admin, portfolio, data rooms, public links | [server/src/routes.ts](server/src/routes.ts) |
-| Sample tenants | [server/src/seedTenants.ts](server/src/seedTenants.ts) |
-| Client session, entitlements and white-label tokens | [client/src/session.tsx](client/src/session.tsx) |
-
-### Licensing rules
-
-- **CarVault Admin** owns the catalog and is the only role that can assign, change, add or remove categories, enable or remove modules, suspend tenants, set custom domains and passport co-branding, and change Confidence Engine weights.
-- **Organization admins** manage users and branches and, when self-serve branding is on, their own app name, logo, colours, mode and footers.
-- **Tenants see locked categories and modules** ("Available with …") but can't activate them. The server refuses with *"Your organization is not licensed for this category. Contact CarVault Admin."* and logs the attempt.
-- Tenants only ever see their own vehicles. Another tenant's vehicle returns 404.
-
-### Vehicle Confidence
-
-How confident CarVault is in a vehicle's **history**, not its mechanical condition. Eight dimensions (identity, ownership, mileage, service history, insurance, inspection, accident/claims, documents) are scored from their evidence. Each explains itself, lists its evidence chain and sources, shows what's missing, and estimates the gain from adding it by re-scoring. Evidence counts by trust: verified fully, imported 85%, user-provided 50%, conflict 20%; CarVault Insight never counts as evidence.
-
-### Official evidence (RTA Vehicle Status Certificate)
-
-Owners order the certificate on rta.ae with UAE PASS and upload it (document type *RTA Vehicle Status Certificate*). Each odometer reading on it becomes a dated timeline entry, and it counts as ownership and insurance-history evidence. It stays *User provided* until an organization admin, or CarVault's own team for owner accounts, checks the certificate number with the RTA and records it with **Verify** on the Documents tab (`server/src/official.ts`). There is no live registry connection yet; Admin → Data Sources shows which sources need partnerships.
-
-### UAE transfer checklist
-
-Resale → *UAE transfer checklist* covers the Dubai RTA transfer requirements: Mulkiya and insurance valid, fines paid, loan cleared (or none), technical test for cars over 3 years, Emirates ID, and buyer insurance. Items come from documents or are seller-confirmed and labelled as such. The fines confirmation goes stale after 7 days. It feeds Resale Readiness and can be shared in a data room (`server/src/transfer.ts`).
-
-### Go-to-market: pilots and partners
-
-- Admin → **Pilot Programme** tracks design-partner pilots against their North Star target (see `docs/gtm/pilot-playbook.md`).
-- Data rooms have audience presets and an embeddable listing badge (`/api/public/dataroom/:token/badge.svg`) for marketplaces and car-buying services (see `docs/partners/partner-integration.md`).
-
-## Data trust model
-
-Verified · User provided · Imported · CarVault Insight · Estimated · Unverified · Conflict · Unknown. Every important fact in the passport shows its source.
-
-## Turning on real AI
-
-The app runs on a grounded mock by default. Set `ANTHROPIC_API_KEY` in `.env` and restart to use Claude; if a live call fails the mock takes over. The provider seam is `AIProvider` in [server/src/ai/types.ts](server/src/ai/types.ts).
-
-## Design system
-
-Tokens live in [client/src/styles.css](client/src/styles.css); the platform layer (shell, admin, confidence, data rooms, white-label, light theme) in [client/src/platform.css](client/src/platform.css). Cool graphite palette, electric blue for intelligence and selection only, semantic colours for status only. Logical CSS properties throughout; preview right-to-left with `?dir=rtl`. Tenant branding overrides the accent, secondary colour, typeface and mode, never the status colours or the trust model.
-
-## Known limits
-
-- **Prototype identity**, as above.
-- **Integrations are not live.** "Imported" records for ABC Motors and Meridian Fleet are seeded sample data. Telematics, registration-authority and insurer-claims connectors are listed as not connected.
-- **Value estimates are an illustrative model**, not UAE market data. **Service intervals are typical values**, not manufacturer schedules.
-- Storage is JSON files (`server/data/`), with no database. Share and data-room links are bearer links (data rooms expire and can be revoked).
-- Reference vehicle photos come from Wikimedia Commons (freely licensed, credited, labelled "Reference photo"). Disable with `REFERENCE_IMAGES=off`.
-- Arabic RTL is layout-ready; strings are not yet translated.
+Product management and design by [@ubhavesh96](https://github.com/ubhavesh96).

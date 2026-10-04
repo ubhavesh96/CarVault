@@ -409,6 +409,18 @@ button.cat-toggle:disabled { cursor: default; }
 .pilot-table b.miss { color: var(--color-text-secondary); font-weight: 600; }
 .pilot-steps { margin: 0; padding-inline-start: 20px; display: grid; gap: 6px; }
 
+/* ---------- Owner share dialog ---------- */
+.share-pick-head { display: flex; align-items: baseline; gap: var(--space-3); margin-block: var(--space-5) var(--space-2); }
+.share-pick-head .caption { margin-inline-end: auto; }
+.share-group { border: 0; padding: 0; margin: 0 0 var(--space-3); }
+.share-group legend { margin-block-end: var(--space-2); text-transform: uppercase; letter-spacing: 0.06em; }
+.share-group .section-picker { margin: 0; }
+.vhead-actions { gap: var(--space-2); justify-content: flex-end; }
+.modal .share-result { padding: 0; border: 0; background: none; box-shadow: none; }
+/* The overlay's single column must not size to the modal's max width, or dialogs overflow on phones. */
+.overlay { grid-template-columns: minmax(0, 1fr); }
+.pick input { flex: none; }
+
 /* ---------- Glass selection: one treatment for every "you are here" state. No coloured strokes;
    the selected item is a frosted surface with a lifted edge, bolder text and a full-contrast icon.
    aria-current / aria-pressed carry the state for assistive tech. ---------- */

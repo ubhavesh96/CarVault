@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import QRCode from 'qrcode';
-import { Link2, Printer, QrCode } from 'lucide-react';
+import { Link2, Printer, QrCode, Share2 } from 'lucide-react';
 import { api } from '../api';
 import { useVehicle } from './VehicleLayout';
 import PassportView from '../components/PassportView';
 import { ErrorNote, Spinner } from '../components/ui';
+import ShareDialog from '../components/ShareDialog';
+import { useSession } from '../session';
 import type { PassportData, Share } from '../types';
 
 export default function Passport() {
@@ -16,6 +18,8 @@ export default function Passport() {
   const [copied, setCopied] = useState(false);
   const [busy, setBusy] = useState(false);
   const [qr, setQr] = useState<string | null>(null);
+  const [sharing, setSharing] = useState(false);
+  const { has } = useSession();
 
   const load = useCallback(() => {
     api.passport(id).then((r) => { setP(r.passport); setShare(r.share); }).catch((e) => setErr(e.message));
@@ -45,11 +49,12 @@ export default function Passport() {
         <div className="row between wrap">
           <div style={{ maxInlineSize: 520 }}>
             <h3 className="section-title" style={{ marginBlockEnd: 6 }}>Share with a buyer</h3>
-            <p className="muted small">Nothing is shared until you create a link. Anyone with the link can view this passport (not your uploaded files) until you turn it off.</p>
+            <p className="muted small">Choose exactly which details to share and get a link that expires. Or create a full-passport link, which also prints as a QR code on the passport. Uploaded files are never shared.</p>
           </div>
           <div className="row wrap">
             <button className="btn" onClick={() => window.print()}><Printer className="i" aria-hidden />Print or save PDF</button>
-            {!share && <button className="btn primary" disabled={busy} onClick={() => act(() => api.share(id))}><Link2 className="i" aria-hidden />Create share link</button>}
+            {!share && <button className={`btn${has('data_room') ? '' : ' primary'}`} disabled={busy} onClick={() => act(() => api.share(id))}><Link2 className="i" aria-hidden />Full passport link</button>}
+            {has('data_room') && <button className="btn primary" onClick={() => setSharing(true)}><Share2 className="i" aria-hidden />Share selected details</button>}
           </div>
         </div>
         {share && (
@@ -65,6 +70,7 @@ export default function Passport() {
         <div style={{ marginBlockStart: share ? 12 : 0 }}><ErrorNote error={err} /></div>
       </section>
       <PassportView p={p} qr={qr} shareUrl={url} />
+      {sharing && <ShareDialog vehicle={data.vehicle} onClose={() => setSharing(false)} />}
     </div>
   );
 }
