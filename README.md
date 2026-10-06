@@ -39,7 +39,7 @@
 - [Team & Acknowledgements](#team--acknowledgements)
 - [License](#license)
 
-## 📸 Product Walkthrough
+##  Product Walkthrough
 
 <table>
   <tr>
@@ -52,15 +52,15 @@
   </tr>
 </table>
 
-## 🚩 The Problem
+##  The Problem
 
 The UAE had **4.56 million active registered vehicles in June 2025, up 9.35% in a year** (Salik / RTA data via Khaleej Times; see the capstone PRD's sources). A car's history is scattered across dealer invoices, workshops, insurer PDFs, registration cards and WhatsApp threads. Buyers fall back on seller claims or a one-off VIN history report costing about AED 99–120. Owners can't prove the care they've put in, and dealers, insurers and lenders re-check the same facts on every car.
 
-## 💡 The Solution
+##  The Solution
 
 CarVault makes the **vehicle**, not the person or the workshop, the unit of truth. It collects a car's documents into one record where every fact shows its source. It scores how well that history is evidenced (**Vehicle Confidence**, 0–100), shows what would raise the score, and lets the owner share selected sections through an expiring, revocable link. The same platform is licensed, under the client's own brand, to dealerships, insurers, lenders, service centres, inspection companies and fleets.
 
-## ✨ Key Features
+##  Key Features
 
 All features below exist in the code. The screenshots are in the walkthrough above.
 
@@ -78,7 +78,7 @@ All features below exist in the code. The screenshots are in the walkthrough abo
 | **CarVault Admin** | Licensing, branding, Confidence Engine weights, audit log, data sources and pilot programme tracking | Central governance of the trust model |
 | **Light & dark themes, mobile, RTL-ready** | Per-person theme setting, a phone layout with bottom navigation, logical CSS for right-to-left text | Accessible on any device; prepared for Arabic |
 
-## 👥 Who It's For
+##  Who It's For
 
 **Primary persona: Alex, premium car owner.** An expat professional in Dubai with 1–3 cars. *"Know what my car needs and prove its history when I sell."*
 
@@ -95,7 +95,7 @@ All features below exist in the code. The screenshots are in the walkthrough abo
 These are proto-personas from desk research. Interview-backed personas are still to come.
 <!-- TODO: replace with research-backed personas after customer interviews -->
 
-## 🧠 Product Thinking
+##  Product Thinking
 
 | Area | Summary |
 |---|---|
@@ -118,7 +118,7 @@ These are proto-personas from desk research. Interview-backed personas are still
 Full sources, assumptions and the metric tree are in the capstone PRD.
 <!-- TODO: link the PRD / capstone report once it is published (it is currently excluded from the repo by .gitignore) -->
 
-## ⚙️ How It Works
+##  How It Works
 
 **Owner flow**
 
@@ -154,7 +154,7 @@ flowchart TB
     S --> WM[Wikimedia Commons reference photos]
 ```
 
-## 🧰 Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -164,7 +164,7 @@ flowchart TB
 | AI | Provider interface: grounded mock by default, Anthropic Claude when a key is set |
 | Design | CSS design tokens, Manrope typeface, light and dark themes, logical properties for RTL |
 
-## 🚀 Getting Started
+##  Getting Started
 
 **Prerequisites:** Node.js (developed with v24.20.0) and npm (v11.19.0). <!-- TODO: confirm the minimum supported Node version -->
 
@@ -195,7 +195,7 @@ Open **http://localhost:5173** and choose a sample persona. There are no passwor
 There are no automated tests yet; `npm run typecheck` is the current check. Sample data is created on first run, and **Reset demo data** in the account menu restores it.
 <!-- TODO: add a test suite and an `npm test` script -->
 
-## 🗂 Project Structure
+##  Project Structure
 
 ```text
 CarVault/
@@ -214,7 +214,7 @@ CarVault/
     └── partners/      Partner integration guide
 ```
 
-## 🔒 Security & Privacy
+##  Security & Privacy
 
 What the code does today:
 
@@ -229,7 +229,7 @@ What the code does today:
 
 <!-- TODO: encryption at rest, real sign-in (SSO / UAE PASS) with MFA, UAE PDPL compliance review, UAE data residency, consent and data-deletion flows -->
 
-## 🗺 Roadmap
+##  Roadmap
 
 **Done**
 - [x] Vehicle Confidence with evidence chains and improvement gains
