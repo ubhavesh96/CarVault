@@ -1,0 +1,22 @@
+# Netlify hosts the React front end. The Express API runs elsewhere (for example Render),
+# and Netlify forwards /api requests to it, so the app keeps calling a same-origin /api.
+
+[build]
+  command = "npm run build"
+  publish = "client/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Backend API on Render
+[[redirects]]
+  from = "/api/*"
+  to = "https://carvault-m2e3.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# Single-page app: every other path loads index.html (/garage, /v/:id, /d/:token, ...)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
