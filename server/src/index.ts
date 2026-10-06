@@ -1,7 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import express from 'express';
-import cors from 'cors';
 
 // Minimal .env loader (no dependency): reads KEY=VALUE lines from the repo root.
 const envFile = path.join(__dirname, '..', '..', '.env');
@@ -12,25 +10,12 @@ if (fs.existsSync(envFile)) {
   }
 }
 
-import { api, errorHandler } from './routes';
+import { createApp } from './app';
 import { activeProvider } from './ai';
 import { getDB, save } from './store';
 import { attachReferencePhoto } from './reference';
 
-const app = express();
-app.use(cors());
-app.use(express.json({ limit: '1mb' }));
-app.use('/api', api);
-app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found' }));
-
-// In production, serve the built client from the same server.
-const dist = path.join(__dirname, '..', '..', 'client', 'dist');
-if (fs.existsSync(dist)) {
-  app.use(express.static(dist));
-  app.get('*', (_req, res) => res.sendFile(path.join(dist, 'index.html')));
-}
-
-app.use(errorHandler);
+const app = createApp({ serveClient: true });
 
 const port = Number(process.env.PORT) || 4000;
 app.listen(port, () => {

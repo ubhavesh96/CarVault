@@ -1,0 +1,112 @@
+{
+  "veh_m5": {
+    "file": "veh_m5.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "Alexander Migl",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:BMW_M5_(G90)_MYLE_Festival_2025_DSC_9648.jpg",
+      "title": "BMW M5"
+    }
+  },
+  "veh_abc_911": {
+    "file": "veh_abc_911.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "Alexander Migl",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2025_Porsche_992_Carrera_convertible_DSC_7026.jpg",
+      "title": "Porsche 911 (992)"
+    }
+  },
+  "veh_abc_rrs": {
+    "file": "veh_abc_rrs.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "Vauxford",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2015_Land_Rover_Range_Rover_Sport_HSE_3.0_Front.jpg",
+      "title": "Range Rover Sport"
+    }
+  },
+  "veh_abc_g63": {
+    "file": "veh_abc_g63.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "Julian Herzog (Website)",
+      "license": "CC BY 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_W463_G_350_BlueTEC_01.jpg",
+      "title": "Mercedes-Benz G-Class"
+    }
+  },
+  "veh_xyz_patrol": {
+    "file": "veh_xyz_patrol.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "EurovisionNim",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2016_Nissan_Patrol_(Y62)_Ti-L_wagon_(2018-09-17)_01.jpg",
+      "title": "Nissan Patrol"
+    }
+  },
+  "veh_xyz_lc": {
+    "file": "veh_xyz_lc.png",
+    "mime": "image/png",
+    "credit": {
+      "author": "Autosdeprimera",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2021_Toyota_Land_Cruiser_300_3.4_ZX_(Colombia)_front_view_04.png",
+      "title": "Toyota Land Cruiser"
+    }
+  },
+  "veh_harbor_s": {
+    "file": "veh_harbor_s.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "Alexander Migl",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_W223_IMG_3951.jpg",
+      "title": "Mercedes-Benz S-Class (W223)"
+    }
+  },
+  "veh_pas_x5": {
+    "file": "veh_pas_x5.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "Alexander Migl",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:BMW_G05_45e_IMG_3714.jpg",
+      "title": "BMW X5 (G05)"
+    }
+  },
+  "veh_mer_camry1": {
+    "file": "veh_mer_camry1.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "EurovisionNim",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2018_Toyota_Camry_(ASV70R)_Ascent_sedan_(2018-08-27)_01.jpg",
+      "title": "Toyota Camry (XV70)"
+    }
+  },
+  "veh_mer_camry2": {
+    "file": "veh_mer_camry2.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "EurovisionNim",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2018_Toyota_Camry_(ASV70R)_Ascent_sedan_(2018-08-27)_01.jpg",
+      "title": "Toyota Camry (XV70)"
+    }
+  },
+  "veh_cc_rs6": {
+    "file": "veh_cc_rs6.jpg",
+    "mime": "image/jpeg",
+    "credit": {
+      "author": "Mr.choppers",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:2021_Audi_RS6_Avant_in_Nardo_Gray,_front_right.jpg",
+      "title": "Audi RS 6"
+    }
+  }
+}

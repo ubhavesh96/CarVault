@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { randomBytes } from 'crypto';
-import { getDB, save, newId, resetToSeed, UPLOAD_DIR } from './store';
+import { getDB, save, newId, resetToSeed, SERVERLESS, UPLOAD_DIR } from './store';
 import type {
   Branding, CategoryId, ChatMessage, DataRoom, DocType, DocumentRecord, ExtractedField, Organization, Pilot, PilotStage, Role,
   ServiceCategory, ServiceDraft, ServiceRecord, TransferCheckId, User, Vehicle,
@@ -1144,7 +1144,7 @@ api.patch('/admin/confidence', wrap((req, res) => {
 api.get('/admin/ai', (_req, res) => {
   requirePlatformAdmin('admin.ai');
   const p = activeProvider();
-  res.json({ provider: p.name, model: process.env.CARVAULT_MODEL || 'claude-sonnet-5', liveConfigured: !!process.env.ANTHROPIC_API_KEY, referenceImages: (process.env.REFERENCE_IMAGES || 'on').toLowerCase() !== 'off' });
+  res.json({ provider: p.name, model: process.env.CARVAULT_MODEL || 'claude-sonnet-5', liveConfigured: !!process.env.ANTHROPIC_API_KEY, referenceImages: (process.env.REFERENCE_IMAGES || (SERVERLESS ? 'off' : 'on')).toLowerCase() !== 'off' });
 });
 
 // --- Errors ---------------------------------------------------------------------------

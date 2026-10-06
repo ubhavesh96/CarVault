@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { UPLOAD_DIR, newId } from './store';
+import { SERVERLESS, UPLOAD_DIR, newId } from './store';
 import type { Vehicle } from './types';
 
 /**
@@ -126,7 +126,8 @@ export type ReferenceResult = 'attached' | 'none' | 'unavailable';
 
 /** Try to attach a reference photo. Never throws. */
 export async function attachReferencePhoto(v: Vehicle): Promise<ReferenceResult> {
-  if ((process.env.REFERENCE_IMAGES || '').toLowerCase() === 'off') return 'none';
+  // Off by default on serverless hosts: the polite, rate-limited lookup can outlast a function's time limit.
+  if ((process.env.REFERENCE_IMAGES || (SERVERLESS ? 'off' : 'on')).toLowerCase() === 'off') return 'none';
   try {
     const hit = await resolve(v);
     if (!hit) return 'none';

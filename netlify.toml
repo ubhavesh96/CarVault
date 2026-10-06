@@ -1,5 +1,5 @@
-# Netlify hosts the React front end. The Express API runs elsewhere (for example Render),
-# and Netlify forwards /api requests to it, so the app keeps calling a same-origin /api.
+# The whole app runs on Netlify: the React client as static files, and the Express API as a
+# Netlify Function. /api/* is rewritten to the function, so the client keeps calling /api.
 
 [build]
   command = "npm run build"
@@ -8,10 +8,15 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Backend API on Render
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # Sample photo and licensed reference photos for the seeded demo vehicles.
+  included_files = ["server/assets/**"]
+
 [[redirects]]
   from = "/api/*"
-  to = "https://carvault-m2e3.onrender.com/api/:splat"
+  to = "/.netlify/functions/api/:splat"
   status = 200
   force = true
 

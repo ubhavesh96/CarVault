@@ -1,14 +1,48 @@
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import type { DB } from './types';
 import { buildSeed } from './seed';
 import { OWNER_ORG_ID, applySamplePilots } from './seedTenants';
 
-export const DATA_DIR = path.join(__dirname, '..', 'data');
+/**
+ * Serverless hosts (Netlify Functions / AWS Lambda) only allow writes to the temp folder, and it is
+ * wiped on a cold start, so the demo re-seeds itself there. Locally, data lives in server/data.
+ */
+export const SERVERLESS = !!(process.env.LAMBDA_TASK_ROOT || process.env.NETLIFY);
+export const DATA_DIR = process.env.CARVAULT_DATA_DIR || (SERVERLESS ? path.join(os.tmpdir(), 'carvault') : path.join(__dirname, '..', 'data'));
 export const UPLOAD_DIR = path.join(DATA_DIR, 'uploads');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
-const SAMPLE_PHOTO = path.join(__dirname, '..', 'assets', 'sample-m5.jpg');
+
+/** Bundled assets live next to the source locally, and under the function root when deployed. */
+const ASSET_DIR = [
+  path.join(__dirname, '..', 'assets'),
+  path.join(process.cwd(), 'server', 'assets'),
+  path.join(process.env.LAMBDA_TASK_ROOT ?? '', 'server', 'assets'),
+].find((d) => fs.existsSync(d)) ?? path.join(__dirname, '..', 'assets');
+const SAMPLE_PHOTO = path.join(ASSET_DIR, 'sample-m5.jpg');
+const REFERENCE_DIR = path.join(ASSET_DIR, 'reference');
+
+/**
+ * Sample vehicles ship with their licensed reference photos (and credits), so a fresh demo shows
+ * real model photos without calling Wikimedia, which serverless time limits make unreliable.
+ */
+function applyBundledReferencePhotos(data: DB) {
+  const manifest = path.join(REFERENCE_DIR, 'manifest.json');
+  if (!fs.existsSync(manifest)) return;
+  const refs = JSON.parse(fs.readFileSync(manifest, 'utf8')) as Record<string, { file: string; mime: string; credit: NonNullable<NonNullable<DB['vehicles'][number]['photo']>['credit']> }>;
+  for (const v of data.vehicles) {
+    const r = refs[v.id];
+    if (!r || v.photo || v.photoRemoved) continue;
+    const src = path.join(REFERENCE_DIR, r.file);
+    if (!fs.existsSync(src)) continue;
+    const storedName = `ref_${r.file}`;
+    fs.copyFileSync(src, path.join(UPLOAD_DIR, storedName));
+    v.photo = { storedName, mime: r.mime, updatedAt: new Date().toISOString(), kind: 'reference', credit: r.credit };
+    v.referenceTried = true;
+  }
+}
 
 /** Give the sample vehicle its original photo (copied into uploads so it behaves like any owner photo). */
 function applySamplePhoto(data: DB) {
@@ -40,6 +74,7 @@ function load(): DB {
       // Go-to-market pilots arrived after launch; give existing demo data the sample pipeline once.
       if (!data.settings.samplePilotsApplied) { applySamplePilots(data.orgs); data.settings.samplePilotsApplied = true; }
       applySamplePhoto(data);
+      applyBundledReferencePhotos(data);
       persist(data);
       return data;
     } catch (e) {
@@ -50,6 +85,7 @@ function load(): DB {
   }
   const seeded = buildSeed();
   applySamplePhoto(seeded);
+  applyBundledReferencePhotos(seeded);
   persist(seeded);
   return seeded;
 }
@@ -101,6 +137,7 @@ export function save() {
 export function resetToSeed() {
   db = buildSeed();
   applySamplePhoto(db);
+  applyBundledReferencePhotos(db);
   persist(db);
 }
 
